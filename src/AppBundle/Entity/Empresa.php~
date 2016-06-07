@@ -1,0 +1,76 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use AppBundle\Entity\Base\BaseClass;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Empresa
+ *
+ * @ORM\Table(name="empresas")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EmpresaRepository")
+ */
+class Empresa extends BaseClass
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slogan", type="string", length=255, nullable=true)
+     */
+    private $slogan;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="color", type="string", length=255, nullable=true)
+     */
+    private $color;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="controla_stock", type="boolean", nullable=true)
+     */
+    private $controlaStock;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Direccion")
+     * @ORM\JoinColumn(name="direccion_id", referencedColumnName="id")
+     */
+    private $direccion;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Contacto")
+     * @ORM\JoinColumn(name="contacto_id", referencedColumnName="id")
+     */
+    private $contacto;
+
+}

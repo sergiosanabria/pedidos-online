@@ -1,0 +1,15 @@
+easy_admin:
+    entities:
+        Producto:
+            class: AppBundle\Entity\Producto
+            form:
+                fields:
+                    - { property: 'nombre' }
+                    - { property: 'descripcion' }
+                    - { property: 'controlaStock' }
+                    - { property: 'cantidad' }
+                    - { property: 'precioDeVenta' }
+                    - { property: 'precioDeCosto' }
+                    - { property: 'empresa' }
+                    - { property: 'categoria' }
+                    - { property: 'imageFile', type: 'vich_image' }

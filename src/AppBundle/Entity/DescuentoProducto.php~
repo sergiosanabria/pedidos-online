@@ -1,0 +1,111 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use AppBundle\Entity\Base\BaseClass;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * DescuentoProducto
+ *
+ * @ORM\Table(name="descuento_productos")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\DescuentoProductoRepository")
+ */
+class DescuentoProducto extends BaseClass
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="porcentaje", type="decimal", precision=10, scale=2)
+     */
+    private $porcentaje;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="precio_combo", type="decimal", precision=10, scale=2)
+     */
+    private $precioCombo;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Producto")
+     * @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
+     */
+    private $producto;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Empresa")
+     * @ORM\JoinColumn(name="empresa_id", referencedColumnName="id")
+     */
+    private $empresa;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set porcentaje
+     *
+     * @param string $porcentaje
+     * @return DescuentoProducto
+     */
+    public function setPorcentaje($porcentaje)
+    {
+        $this->porcentaje = $porcentaje;
+
+        return $this;
+    }
+
+    /**
+     * Get porcentaje
+     *
+     * @return string 
+     */
+    public function getPorcentaje()
+    {
+        return $this->porcentaje;
+    }
+
+    /**
+     * Set precioCombo
+     *
+     * @param string $precioCombo
+     * @return DescuentoProducto
+     */
+    public function setprecioCombo($precioCombo)
+    {
+        $this->precioCombo = $precioCombo;
+
+        return $this;
+    }
+
+    /**
+     * Get precioCombo
+     *
+     * @return string 
+     */
+    public function getprecioCombo()
+    {
+        return $this->precioCombo;
+    }
+}

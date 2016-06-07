@@ -1,0 +1,51 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use AppBundle\Entity\Base\BaseClass;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ProductoCombo
+ *
+ * @ORM\Table(name="producto_combos")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductoComboRepository")
+ */
+class ProductoCombo extends BaseClass
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Producto")
+     * @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
+     */
+    private $producto;
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Combo", inversedBy="productos")
+     * @ORM\JoinColumn(name="combo_id", referencedColumnName="id")
+     */
+    private $combo;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}

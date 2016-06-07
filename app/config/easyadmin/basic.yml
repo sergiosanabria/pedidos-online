@@ -1,0 +1,47 @@
+#easy admin
+easy_admin:
+    site_name: %site_name%
+    entities:
+        Empresa:
+            class: AppBundle\Entity\Empresa
+        Producto:
+            class: AppBundle\Entity\Producto
+        Cliente:
+            class: AppBundle\Entity\Cliente
+        Combo:
+            class: AppBundle\Entity\Combo
+        UnidadMedida:
+            class: AppBundle\Entity\UnidadMedida
+        DescuentoEmpresa:
+            class: AppBundle\Entity\DescuentoEmpresa
+        DescuentoProducto:
+            class: AppBundle\Entity\DescuentoProducto
+        Usuario:
+            class: UsuariosBundle\Entity\Usuario
+        Pais:
+            class: Matudelatower\UbicacionBundle\Entity\Pais
+        Provincia:
+            class: Matudelatower\UbicacionBundle\Entity\Provincia
+        Departamento:
+            class: Matudelatower\UbicacionBundle\Entity\Departamento
+        Localidad:
+            class: Matudelatower\UbicacionBundle\Entity\Localidad
+    design:
+        menu:
+            - 'Empresa'
+            - 'Producto'
+            - 'Cliente'
+            - 'Combo'
+            - { entity: 'UnidadMedida', label: 'Unidades de Medida' }
+            - label: 'Descuentos'
+              children:
+                - { entity: 'DescuentoEmpresa', label: 'Descuento Empresa' }
+                - { entity: 'DescuentoProducto', label: 'Descuento Producto' }
+            - label: 'Ubicación'
+              children:
+                  - 'Pais'
+                  - 'Provincia'
+                  - 'Departamento'
+                  - 'Localidad'
+            - 'Usuario'
+            - { label: 'Cerrar Sesion', route: 'fos_user_security_logout', icon: 'sign-out' }

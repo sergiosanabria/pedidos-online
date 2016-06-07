@@ -1,0 +1,46 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use AppBundle\Entity\Base\BaseClass;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * UnidadMedida
+ *
+ * @ORM\Table(name="unidad_medidas")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UnidadMedidaRepository")
+ */
+class UnidadMedida extends BaseClass
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="abreviatura", type="string", length=255, nullable=true)
+     */
+    private $abreviatura;
+    
+}
