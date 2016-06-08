@@ -4,8 +4,6 @@ easy_admin:
     entities:
         Empresa:
             class: AppBundle\Entity\Empresa
-        Producto:
-            class: AppBundle\Entity\Producto
         Cliente:
             class: AppBundle\Entity\Cliente
         Combo:
