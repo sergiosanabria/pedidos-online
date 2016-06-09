@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PedidoCabecera
  *
- * @ORM\Table(name="pedido_cabeceras")
+ * @ORM\Table(name="pedido_cabecera")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PedidoCabeceraRepository")
  */
 class PedidoCabecera extends BaseClass

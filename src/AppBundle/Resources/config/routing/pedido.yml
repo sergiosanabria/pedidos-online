@@ -1,0 +1,34 @@
+pedidos:
+    path:     /
+    defaults: { _controller: "AppBundle:Pedido:index" }
+
+ajax_pedidos:
+    path:     /ajax_pedidos
+    defaults: { _controller: "AppBundle:Pedido:ajaxGetPedidos" }
+#
+#usuarios_show:
+#    path:     /{id}/show
+#    defaults: { _controller: "AppBundle:Usuario:show" }
+#
+#usuarios_new:
+#    path:     /new
+#    defaults: { _controller: "AppBundle:Usuario:new" }
+#
+#usuarios_create:
+#    path:     /create
+#    defaults: { _controller: "AppBundle:Usuario:create" }
+#    methods:  POST
+#
+#usuarios_edit:
+#    path:     /{id}/edit
+#    defaults: { _controller: "AppBundle:Usuario:edit" }
+#
+#usuarios_update:
+#    path:     /{id}/update
+#    defaults: { _controller: "AppBundle:Usuario:update" }
+#    methods:  [POST, PUT]
+#
+#usuarios_delete:
+#    path:     /{id}/delete
+#    defaults: { _controller: "AppBundle:Usuario:delete" }
+#    methods:  [POST, DELETE]

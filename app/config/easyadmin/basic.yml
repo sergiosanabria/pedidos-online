@@ -10,12 +10,12 @@ easy_admin:
             class: AppBundle\Entity\Combo
         UnidadMedida:
             class: AppBundle\Entity\UnidadMedida
+        PedidoCabecera:
+            class: AppBundle\Entity\PedidoCabecera
         DescuentoEmpresa:
             class: AppBundle\Entity\DescuentoEmpresa
         DescuentoProducto:
             class: AppBundle\Entity\DescuentoProducto
-        Usuario:
-            class: UsuariosBundle\Entity\Usuario
         Pais:
             class: Matudelatower\UbicacionBundle\Entity\Pais
         Provincia:
@@ -25,12 +25,18 @@ easy_admin:
         Localidad:
             class: Matudelatower\UbicacionBundle\Entity\Localidad
     design:
+        form_theme: ['::image_layout.html.twig']
         menu:
             - 'Empresa'
             - 'Producto'
             - 'Cliente'
+            - { entity: 'Categoria', label: 'Categoria' }
             - 'Combo'
             - { entity: 'UnidadMedida', label: 'Unidades de Medida' }
+            - label: 'Pedidos'
+              children:
+                - { entity: 'PedidoCabecera', label: 'Pedidos comunes' }
+                - { label: 'Pedidos Sergio', route: 'pedidos' }
             - label: 'Descuentos'
               children:
                 - { entity: 'DescuentoEmpresa', label: 'Descuento Empresa' }

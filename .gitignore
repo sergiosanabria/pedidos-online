@@ -58,3 +58,6 @@ dwsync.xml
 intermediate
 publish
 .idea
+/node/node_modules/
+/web/uploads/images/productos/*
+!web/uploads/images/productos/.gitkeep

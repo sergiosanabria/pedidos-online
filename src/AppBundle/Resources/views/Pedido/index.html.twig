@@ -1,0 +1,114 @@
+{% extends 'EasyAdminBundle:default:layout.html.twig' %}
+{% block body_javascript %}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.1/angular.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script>
+        socketHost = 'localhost:5000';
+        (function () {
+
+
+            app = angular.module('app', []);
+            app.config(function ($interpolateProvider) {
+                $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
+            });
+
+            app.run(function () {
+
+
+            });
+
+            app.controller("pedidos", function ($scope, socket, $http) {
+                $scope.nombre = "holis";
+                $scope.pedidos = [];
+
+                {#$http.get("{{ path ('ajax_pedidos') }}")#}
+                $http.get("http://fundacionpim.com.ar/radar-cultural-backend/api/noticias")
+                        .success(function (json) {
+                            console.log(json);
+                            $scope.pedidos = json;
+                        })
+                ;
+
+                socket.on('envio', function (data) {
+                    //console.log(JSON.parse(data.data));
+                    $scope.pedidos = JSON.parse(data.data);
+                    console.log($scope.pedidos);
+                });
+            });
+
+
+        }());
+    </script>
+    <script src="{{ asset("bundles/app/js/socket.js") }}"></script>
+
+
+{% endblock body_javascript %}
+
+{% block content %}
+    <div ng-app="app" ng-controller="pedidos">
+
+        <div id="flash-messages">
+        </div>
+
+
+        <section class="content-header">
+            <div class="row">
+                <div class="col-sm-5">
+                    <h1 class="title">Pedidos {[{ pedidos.length }]}</h1>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="content" id="main">
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            titulo
+                        </th>
+                        <th>
+                            Nro de Pedido
+                        </th>
+                        <th>
+                            Nro de Pedido
+                        </th>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="p in pedidos">
+                        <td>{[{ p.titulo }]}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="modal fade" id="modal-delete">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h4>¿Realmente quieres borrar este elemento?</h4>
+                            <p>Esta acción no se puede deshacer.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal" type="button">
+                                Cancelar
+                            </button>
+
+                            <button id="modal-delete-button" class="btn btn-danger" data-dismiss="modal" type="button">
+                                Borrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+{% endblock %}

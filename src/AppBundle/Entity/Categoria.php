@@ -50,6 +50,10 @@ class Categoria extends BaseClass {
 	 */
 	private $empresa;
 
+	public function __toString()
+	{
+		return $this->nombre;
+	}
 
 	/**
 	 * Get id

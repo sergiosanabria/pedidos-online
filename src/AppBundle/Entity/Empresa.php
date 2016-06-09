@@ -73,6 +73,11 @@ class Empresa extends BaseClass
      */
     private $contacto;
 
+    public function __toString()
+    {
+        return $this->getNombre();
+    }
+
 
     /**
      * Get id
