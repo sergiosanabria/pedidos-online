@@ -173,3 +173,30 @@ vich_uploader:
         product_images:
             uri_prefix:         %app.path.product_images%
             upload_destination: %kernel.root_dir%/../web/uploads/images/productos
+
+#fos rest
+fos_rest:
+    serializer:
+        serialize_null: true
+    param_fetcher_listener: true
+    body_converter:
+        enabled: true
+    body_listener: true
+    format_listener:
+        enabled: true
+        rules:
+            # ... previous rules declarations
+#            - { path: '^/admin', stop: true }  # <-- add this line
+    view:
+        view_response_listener: 'force'
+        formats:
+            xml: true
+            json : true
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+    routing_loader:
+        default_format: json

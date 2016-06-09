@@ -10,7 +10,7 @@ easy_admin:
                     - { property: 'cantidad' }
                     - { property: 'precioDeVenta' }
                     - { property: 'precioDeCosto' }
-                    - { property: 'image', type: 'image', template:'field_image', base_path: '%app.path.product_images%' }
+                    - { property: 'image', type: 'image', template:'field_image.html.twig', base_path: '%app.path.product_images%' }
             form:
                 fields:
                     - { property: 'nombre' }
@@ -21,4 +21,4 @@ easy_admin:
                     - { property: 'precioDeCosto' }
                     - { property: 'empresa' }
                     - { property: 'categoria' }
-                    - { property: 'imageFile', template:'field_image',type: 'vich_image' }
+                    - { property: 'imageFile', template:'field_image.html.twig',type: 'vich_image' }

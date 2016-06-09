@@ -1,0 +1,4 @@
+pedidos :
+  type: rest
+  resource:     "AppBundle:PedidosRest"
+  name_prefix:  api_
