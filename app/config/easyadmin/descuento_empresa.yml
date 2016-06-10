@@ -1,0 +1,16 @@
+easy_admin:
+    entities:
+        DescuentoEmpresa:
+            class: AppBundle\Entity\DescuentoEmpresa
+            form:
+                fields:
+                    - { property: 'porcentaje' }
+                    - { property: 'precioCombo' }
+                    - { property: 'empresa' }
+                    - { property: 'activo' }
+            edit:
+                title:  'Editar Descuento Empresa'
+            new:
+                title:  'Alta Descuento Empresa'
+            list:
+                title:  'Descuento Empresa'

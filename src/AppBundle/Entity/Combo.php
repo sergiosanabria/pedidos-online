@@ -53,7 +53,7 @@ class Combo extends BaseClass
     /**
      * @var
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductoCombo", mappedBy="combo")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductoCombo", mappedBy="combo",cascade={"persist", "remove"})
      */
     private $productos;
 

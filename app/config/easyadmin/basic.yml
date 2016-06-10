@@ -2,20 +2,10 @@
 easy_admin:
     site_name: %site_name%
     entities:
-        Empresa:
-            class: AppBundle\Entity\Empresa
         Cliente:
             class: AppBundle\Entity\Cliente
-        Combo:
-            class: AppBundle\Entity\Combo
         UnidadMedida:
             class: AppBundle\Entity\UnidadMedida
-        PedidoCabecera:
-            class: AppBundle\Entity\PedidoCabecera
-        DescuentoEmpresa:
-            class: AppBundle\Entity\DescuentoEmpresa
-        DescuentoProducto:
-            class: AppBundle\Entity\DescuentoProducto
         Pais:
             class: Matudelatower\UbicacionBundle\Entity\Pais
         Provincia:

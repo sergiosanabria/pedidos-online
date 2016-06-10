@@ -1,0 +1,19 @@
+easy_admin:
+    entities:
+        Combo:
+            class: AppBundle\Entity\Combo
+            form:
+                fields:
+                    - { property: 'nombre' }
+                    - { property: 'descripcion' }
+                    - { property: 'productos', type: 'collection', type_options: { entry_type: 'AppBundle\Form\ProductoComboType', by_reference: true, allow_delete: true }}
+                    - { property: 'porcentaje' }
+                    - { property: 'precio' }
+                    - { property: 'empresa' }
+                    - { property: 'categoria' }
+            edit:
+                title:  'Editar %%entity_name%%'
+            new:
+                title:  'Alta %%entity_name%%'
+            list:
+                title:  '%%entity_name%%'

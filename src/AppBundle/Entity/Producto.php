@@ -125,6 +125,10 @@ class Producto extends BaseClass
         return $this->image;
     }
 
+    public function __toString() {
+        return $this->nombre;
+    }
+
     /**
      * Get id
      *

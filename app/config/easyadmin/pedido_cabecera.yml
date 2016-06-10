@@ -1,0 +1,13 @@
+easy_admin:
+    entities:
+        PedidoCabecera:
+            class: AppBundle\Entity\PedidoCabecera
+            form:
+                fields:
+                    - { property: 'cliente' }
+                    - { property: 'empresa' }
+                    - { property: 'observacion' }
+                    - { property: 'estado' }
+                    - { property: 'motivoCancelacionCliente' }
+                    - { property: 'motivoCancelacionEmpresa' }
+                    - { property: 'total' }

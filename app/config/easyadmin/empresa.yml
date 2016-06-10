@@ -1,0 +1,20 @@
+easy_admin:
+    entities:
+        Empresa:
+            class: AppBundle\Entity\Empresa
+            form:
+                fields:
+                    - { property: 'nombre' }
+                    - { property: 'descripcion' }
+                    - { property: 'slogan' }
+                    - { property: 'color' }
+                    - { property: 'controlaStock' }
+                    - { property: 'activo' }
+#                    - { property: 'direccion', type: 'collection', type_options: { entry_type: 'AppBundle\Form\DireccionType', by_reference: false }}
+#                    - { property: 'contacto' , type: 'collection', type_options: { entry_type: 'AppBundle\Form\ContactoType', by_reference: false }}
+            edit:
+                title:  'Editar %%entity_name%%'
+            new:
+                title:  'Alta %%entity_name%%'
+            list:
+                title:  '%%entity_name%%'
