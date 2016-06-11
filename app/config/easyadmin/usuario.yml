@@ -12,3 +12,13 @@ easy_admin:
                     - { property: 'plainPassword', type: 'password' }
                     - { property: 'enabled'}
                     - { property: 'locked'}
+                    - { property: 'imageFile',label: 'Imagen Perfil', type: 'vich_image' }
+
+            list:
+                fields:
+                    - { property: 'username' }
+                    - { property: 'email' }
+                    - { property: 'enabled' }
+                    - { property: 'lastLogin' }
+                    - { property: 'locked' }
+                    - { property: 'image', type: 'image', base_path: %app.path.profile_images% }

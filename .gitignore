@@ -61,3 +61,5 @@ publish
 /node/node_modules/
 /web/uploads/images/productos/*
 !web/uploads/images/productos/.gitkeep
+/web/uploads/images/perfil/*
+!web/uploads/images/perdil/.gitkeep

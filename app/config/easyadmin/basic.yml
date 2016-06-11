@@ -38,4 +38,4 @@ easy_admin:
                   - 'Departamento'
                   - 'Localidad'
             - 'Usuario'
-            - { label: 'Cerrar Sesion', route: 'fos_user_security_logout', icon: 'sign-out' }
+            - { label: 'Cerrar Sesión', route: 'fos_user_security_logout', icon: 'sign-out' }

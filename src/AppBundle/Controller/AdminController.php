@@ -22,7 +22,6 @@ class AdminController extends BaseAdminController {
 	}
 
 //    Combo
-
 	public function prePersistComboEntity( $entity ) {
 		foreach ( $entity->getProductos() as $productoCombo ) {
 			$productoCombo->setCombo( $entity );
