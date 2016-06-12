@@ -4,8 +4,6 @@ easy_admin:
     entities:
         Cliente:
             class: AppBundle\Entity\Cliente
-        UnidadMedida:
-            class: AppBundle\Entity\UnidadMedida
         Pais:
             class: Matudelatower\UbicacionBundle\Entity\Pais
         Provincia:

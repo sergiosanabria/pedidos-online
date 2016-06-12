@@ -1,0 +1,17 @@
+easy_admin:
+    entities:
+        UnidadMedida:
+            class: AppBundle\Entity\UnidadMedida
+            label: 'Unidad de Medida'
+            form:
+                fields:
+                    - { property: 'nombre' }
+                    - { property: 'descripcion' }
+                    - { property: 'abreviatura' }
+                    - { property: 'activo' }
+            edit:
+                title:  'Editar %%entity_label%%'
+            new:
+                title:  'Alta %%entity_label%%'
+            list:
+                title:  '%%entity_label%%'
