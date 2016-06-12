@@ -4,7 +4,12 @@ easy_admin:
         Usuario:
             class: UsuariosBundle\Entity\Usuario
             edit:
-                fields: ['username', 'email', 'enabled', 'locked']
+                fields:
+                    - { property: 'username' }
+                    - { property: 'email' }
+                    - { property: 'enabled' }
+                    - { property: 'locked' }
+                    - { property: 'imageFile',label: 'Imagen Perfil', type: 'vich_image' }
             new:
                 fields:
                     - { property: 'username' }
