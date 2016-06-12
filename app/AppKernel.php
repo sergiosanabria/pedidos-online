@@ -24,6 +24,7 @@ class AppKernel extends Kernel
 	        new Matudelatower\UbicacionBundle\UbicacionBundle(),
 	        new Vich\UploaderBundle\VichUploaderBundle(),
 	        new Nelmio\CorsBundle\NelmioCorsBundle(),
+	        new JMS\SerializerBundle\JMSSerializerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

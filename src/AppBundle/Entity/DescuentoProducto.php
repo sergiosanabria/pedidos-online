@@ -39,7 +39,7 @@ class DescuentoProducto extends BaseClass
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Producto")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Producto", inversedBy="descuentos")
      * @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
      */
     private $producto;

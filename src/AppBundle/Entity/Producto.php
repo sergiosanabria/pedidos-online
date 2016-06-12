@@ -78,10 +78,16 @@ class Producto extends BaseClass
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Categoria")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Categoria", inversedBy="productos")
      * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      */
     private $categoria;
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\DescuentoProducto", mappedBy="producto")
+     */
+    private $descuentos;
 
     /**
      * @ORM\Column(type="string", length=255)

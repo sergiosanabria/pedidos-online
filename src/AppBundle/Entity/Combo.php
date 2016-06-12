@@ -4,12 +4,16 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Base\BaseClass;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * Combo
  *
  * @ORM\Table(name="combos")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ComboRepository")
+ * @ExclusionPolicy("all")
  */
 class Combo extends BaseClass
 {
@@ -26,6 +30,7 @@ class Combo extends BaseClass
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255)
+     * @Expose()
      */
     private $nombre;
 
@@ -33,6 +38,7 @@ class Combo extends BaseClass
      * @var string
      *
      * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
+     * @Expose()
      */
     private $descripcion;
 
@@ -54,6 +60,7 @@ class Combo extends BaseClass
      * @var
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductoCombo", mappedBy="combo",cascade={"persist", "remove"})
+     * @Expose()
      */
     private $productos;
 

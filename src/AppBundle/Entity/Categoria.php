@@ -4,12 +4,19 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Base\BaseClass;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * Categoria
  *
  * @ORM\Table(name="categorias")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoriaRepository")
+ * @ExclusionPolicy("all")
  */
 class Categoria extends BaseClass {
 	/**
@@ -25,6 +32,7 @@ class Categoria extends BaseClass {
 	 * @var string
 	 *
 	 * @ORM\Column(name="nombre", type="string", length=255)
+	 * @Expose
 	 */
 	private $nombre;
 
@@ -32,6 +40,7 @@ class Categoria extends BaseClass {
 	 * @var string
 	 *
 	 * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
+	 * @Expose
 	 */
 	private $descripcion;
 
@@ -49,6 +58,13 @@ class Categoria extends BaseClass {
 	 * @ORM\JoinColumn(name="empresa_id", referencedColumnName="id")
 	 */
 	private $empresa;
+
+	/**
+	 *
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Producto", mappedBy="categoria")
+	 * @Expose
+	 */
+	private $productos;
 
 	public function __toString()
 	{
@@ -203,5 +219,46 @@ class Categoria extends BaseClass {
         $this->actualizadoPor = $actualizadoPor;
 
         return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->productos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add producto
+     *
+     * @param \AppBundle\Entity\Producto $producto
+     *
+     * @return Categoria
+     */
+    public function addProducto(\AppBundle\Entity\Producto $producto)
+    {
+        $this->productos[] = $producto;
+
+        return $this;
+    }
+
+    /**
+     * Remove producto
+     *
+     * @param \AppBundle\Entity\Producto $producto
+     */
+    public function removeProducto(\AppBundle\Entity\Producto $producto)
+    {
+        $this->productos->removeElement($producto);
+    }
+
+    /**
+     * Get productos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductos()
+    {
+        return $this->productos;
     }
 }

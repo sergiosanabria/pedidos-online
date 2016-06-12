@@ -8,7 +8,13 @@ namespace AppBundle\Entity\Base;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use UsuariosBundle\Entity\Usuario;
+use JMS\Serializer\Annotation\ExclusionPolicy;
 
+/**
+ * Class BaseClass
+ * @package AppBundle\Entity\Base
+ * @ExclusionPolicy("all")
+ */
 abstract class BaseClass
 {
 
