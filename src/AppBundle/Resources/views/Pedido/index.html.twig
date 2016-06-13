@@ -20,18 +20,18 @@
             app.controller("pedidos", function ($scope, socket, $http) {
                 $scope.nombre = "holis";
                 $scope.pedidos = [];
+                var url_pedidos = "http://localhost/pedidosonline/web/app_dev.php/api/pedidos";
 
-                {#$http.get("{{ path ('ajax_pedidos') }}")#}
-                $http.get("http://fundacionpim.com.ar/radar-cultural-backend/api/noticias")
+                $http.get(url_pedidos)
                         .success(function (json) {
                             console.log(json);
                             $scope.pedidos = json;
                         })
                 ;
 
-                socket.on('envio', function (data) {
+                socket.on('pedidos', function (data) {
                     //console.log(JSON.parse(data.data));
-                    $scope.pedidos = JSON.parse(data.data);
+                    $scope.pedidos = data.pedidos;
                     console.log($scope.pedidos);
                 });
             });
@@ -67,13 +67,16 @@
                     <thead>
                     <tr>
                         <th>
-                            titulo
-                        </th>
-                        <th>
                             Nro de Pedido
                         </th>
                         <th>
-                            Nro de Pedido
+                            Tipo de envio
+                        </th>
+                        <th>
+                            Observaciones
+                        </th>
+                        <th>
+                            Total
                         </th>
 
                     </tr>
@@ -81,7 +84,11 @@
 
                     <tbody>
                     <tr ng-repeat="p in pedidos">
-                        <td>{[{ p.titulo }]}</td>
+                        <td>{[{ p.id }]}</td>
+                        <td>
+                            <span ng-class="p.delivery?'badge alert-warning': 'badge alert-success'" ng-bind="p.delivery?'Delivery':'Pasa a buscar'"></span></td>
+                        <td>{[{ p.observacion }]}</td>
+                        <td>{[{ p.total }]}</td>
                     </tr>
                     </tbody>
                 </table>

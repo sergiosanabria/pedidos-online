@@ -1,63 +1,117 @@
-/web/bundles/
-/app/bootstrap.php.cache
+# Cache and logs (Symfony2)
 /app/cache/*
-/app/config/parameters.yml
 /app/logs/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
-/app/phpunit.xml
-/build/
+
+# Cache and logs (Symfony3)
+/var/cache/*
+/var/logs/*
+!var/cache/.gitkeep
+!var/logs/.gitkeep
+
+# Parameters
+/app/config/parameters.yml
+/app/config/parameters.ini
+
+# Managed by Composer
+/app/bootstrap.php.cache
+/var/bootstrap.php.cache
+/bin/*
+!bin/console
+!bin/symfony_requirements
 /vendor/
-/bin/
+
+# Assets and user uploads
+/web/bundles/
+/web/uploads/
+
+# Assets managed by Bower
+/web/assets/vendor/
+
+# PHPUnit
+/app/phpunit.xml
+/phpunit.xml
+
+# Build data
+/build/
+
+# Composer PHAR
 /composer.phar
 
+# Backup entities generated with doctrine:generate:entities command
+*/Entity/*~
 
-# Numerous always-ignore extensions
-*.diff
-*.err
-*.orig
-*.log
-*.rej
-*.swo
-*.swp
-*.vi
-*~
-*.sass-cache
+# -- Editores -----------------------------------------
+# vim
+.*.sw[a-z]
+*.un~
+Session.vim
+.netrwhist
 
-# OS or Editor folders
-.DS_Store
-._*
-Thumbs.db
-.cache
+# eclipse
+*.pydevproject
 .project
-.settings
-.tmproj
-nbproject
-*.sublime-project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+.externalToolBuilders/
+*.launch
+.buildpath
+
+# phpstorm
+.idea/
+
+# textmate
+*.tmproj
+*.tmproject
+tmtags
+
+# sublimetext
+/*.sublime-project
 *.sublime-workspace
 
-# Dreamweaver added files
-_notes
-dwsync.xml
+# netbeans
+nbproject
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
 
-# Komodo
-*.komodoproject
-.komodotools
+# -- Sistemas Operativos ------------------------------
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
 
-# Espresso
-*.esproj
-*.espressostorage
+# Linux
+.*
+!.gitignore
+!.htaccess
+*~
 
-# Rubinius
-*.rbc
+# Mac OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
 
-# Folders to ignore
-.hg
-.svn
-.CVS
-intermediate
-publish
-.idea
 /node/node_modules/
 /web/uploads/images/productos/*
 !web/uploads/images/productos/.gitkeep

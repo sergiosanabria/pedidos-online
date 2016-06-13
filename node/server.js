@@ -4,8 +4,9 @@ var mysql = require('mysql');
 var MySQLEvents = require('mysql-events');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
+/****url*****/
 
-
+var url_pedidos = "http://localhost/pedidosonline/web/app_dev.php/api/pedidos";
 
 
 //Add a connect listener
@@ -19,12 +20,6 @@ io.on('disconnect', function (client) {
     console.log('client disconnected');
 });
 
-//
-//setInterval(function () {
-//    ajaxDatos('http://fundacionpim.com.ar/radar-cultural-backend/api/noticias');
-//
-//
-//}, 3000);
 
 /*Evento en base de datos*/
 const MYSQL_DATABASE = "pedidosonline";
@@ -59,7 +54,9 @@ var watcher = mysqlEventWatcher.add(
         //}
 
         if (oldRow === null || (oldRow !== null && newRow !== null)) {
-            ajaxDatos('http://fundacionpim.com.ar/radar-cultural-backend/api/noticias');
+
+            console.log(newRow);
+            ajaxPedidos(url_pedidos);
         }
 
 
@@ -68,18 +65,16 @@ var watcher = mysqlEventWatcher.add(
 );
 
 
-
 //Defining port
 server.listen(5000);
 
-function ajaxDatos(url) {
+function ajaxPedidos(url) {
 
     var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            io.emit('envio', {data: xhttp.responseText});
-            console.log(xhttp.responseText);
-        }else{
+            io.emit('pedidos', {pedidos: JSON.parse(xhttp.responseText)});
+        } else {
             return false;
         }
     };

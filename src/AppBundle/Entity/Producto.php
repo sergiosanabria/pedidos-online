@@ -40,6 +40,13 @@ class Producto extends BaseClass
     private $descripcion;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="ingredientes", type="text",  nullable=true)
+     */
+    private $ingredientes;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="controla_stock", type="boolean", nullable=true)
@@ -379,5 +386,29 @@ class Producto extends BaseClass
         $this->actualizadoPor = $actualizadoPor;
 
         return $this;
+    }
+
+    /**
+     * Set ingredientes
+     *
+     * @param string $ingredientes
+     *
+     * @return Producto
+     */
+    public function setIngredientes($ingredientes)
+    {
+        $this->ingredientes = $ingredientes;
+
+        return $this;
+    }
+
+    /**
+     * Get ingredientes
+     *
+     * @return string
+     */
+    public function getIngredientes()
+    {
+        return $this->ingredientes;
     }
 }

@@ -20,7 +20,7 @@ class PedidoCabeceraRepository extends EntityRepository
             ->andWhere('p.activo = true')
             ->andWhere('(TIMESTAMPDIFF(HOUR, p.fechaCreacion,  :hoy)) <= :hora')
             ->setParameter('hoy', new \DateTime())
-            ->setParameter('hora', 20);
+            ->setParameter('hora', 200);
 
         $sql = $qb->getQuery()->getSQL();
 

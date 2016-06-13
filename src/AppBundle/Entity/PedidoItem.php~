@@ -175,4 +175,125 @@ class PedidoItem extends BaseClass
     {
         return $this->detalles;
     }
+
+    /**
+     * Set fechaCreacion
+     *
+     * @param \DateTime $fechaCreacion
+     * @return PedidoItem
+     */
+    public function setFechaCreacion($fechaCreacion)
+    {
+        $this->fechaCreacion = $fechaCreacion;
+
+        return $this;
+    }
+
+    /**
+     * Set fechaActualizacion
+     *
+     * @param \DateTime $fechaActualizacion
+     * @return PedidoItem
+     */
+    public function setFechaActualizacion($fechaActualizacion)
+    {
+        $this->fechaActualizacion = $fechaActualizacion;
+
+        return $this;
+    }
+
+    /**
+     * Set producto
+     *
+     * @param \AppBundle\Entity\Producto $producto
+     * @return PedidoItem
+     */
+    public function setProducto(\AppBundle\Entity\Producto $producto = null)
+    {
+        $this->producto = $producto;
+
+        return $this;
+    }
+
+    /**
+     * Get producto
+     *
+     * @return \AppBundle\Entity\Producto 
+     */
+    public function getProducto()
+    {
+        return $this->producto;
+    }
+
+    /**
+     * Set combo
+     *
+     * @param \AppBundle\Entity\Combo $combo
+     * @return PedidoItem
+     */
+    public function setCombo(\AppBundle\Entity\Combo $combo = null)
+    {
+        $this->combo = $combo;
+
+        return $this;
+    }
+
+    /**
+     * Get combo
+     *
+     * @return \AppBundle\Entity\Combo 
+     */
+    public function getCombo()
+    {
+        return $this->combo;
+    }
+
+    /**
+     * Set pedidoCabecera
+     *
+     * @param \AppBundle\Entity\PedidoCabecera $pedidoCabecera
+     * @return PedidoItem
+     */
+    public function setPedidoCabecera(\AppBundle\Entity\PedidoCabecera $pedidoCabecera = null)
+    {
+        $this->pedidoCabecera = $pedidoCabecera;
+
+        return $this;
+    }
+
+    /**
+     * Get pedidoCabecera
+     *
+     * @return \AppBundle\Entity\PedidoCabecera 
+     */
+    public function getPedidoCabecera()
+    {
+        return $this->pedidoCabecera;
+    }
+
+    /**
+     * Set creadoPor
+     *
+     * @param \UsuariosBundle\Entity\Usuario $creadoPor
+     * @return PedidoItem
+     */
+    public function setCreadoPor(\UsuariosBundle\Entity\Usuario $creadoPor = null)
+    {
+        $this->creadoPor = $creadoPor;
+
+        return $this;
+    }
+
+    /**
+     * Set actualizadoPor
+     *
+     * @param \UsuariosBundle\Entity\Usuario $actualizadoPor
+     * @return PedidoItem
+     */
+    public function setActualizadoPor(\UsuariosBundle\Entity\Usuario $actualizadoPor = null)
+    {
+        $this->actualizadoPor = $actualizadoPor;
+
+        return $this;
+    }
 }
