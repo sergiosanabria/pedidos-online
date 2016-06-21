@@ -6,6 +6,7 @@ easy_admin:
                 fields:
                     - { property: 'nombre' }
                     - { property: 'descripcion' }
+                    - { property: 'ingredientes' }
                     - { property: 'controlaStock' }
                     - { property: 'cantidad' }
                     - { property: 'precioDeVenta' }
@@ -15,6 +16,7 @@ easy_admin:
                 fields:
                     - { property: 'nombre' }
                     - { property: 'descripcion' }
+                    - { property: 'ingredientes' }
                     - { property: 'controlaStock' }
                     - { property: 'cantidad' }
                     - { property: 'precioDeVenta' }

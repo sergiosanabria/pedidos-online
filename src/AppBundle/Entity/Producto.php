@@ -411,4 +411,45 @@ class Producto extends BaseClass
     {
         return $this->ingredientes;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->descuentos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add descuento
+     *
+     * @param \AppBundle\Entity\DescuentoProducto $descuento
+     *
+     * @return Producto
+     */
+    public function addDescuento(\AppBundle\Entity\DescuentoProducto $descuento)
+    {
+        $this->descuentos[] = $descuento;
+
+        return $this;
+    }
+
+    /**
+     * Remove descuento
+     *
+     * @param \AppBundle\Entity\DescuentoProducto $descuento
+     */
+    public function removeDescuento(\AppBundle\Entity\DescuentoProducto $descuento)
+    {
+        $this->descuentos->removeElement($descuento);
+    }
+
+    /**
+     * Get descuentos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDescuentos()
+    {
+        return $this->descuentos;
+    }
 }
