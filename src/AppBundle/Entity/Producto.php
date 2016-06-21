@@ -6,6 +6,9 @@ use AppBundle\Entity\Base\BaseClass;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Producto
@@ -79,6 +82,7 @@ class Producto extends BaseClass
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Empresa")
      * @ORM\JoinColumn(name="empresa_id", referencedColumnName="id")
+     * @Exclude()
      */
     private $empresa;
 
@@ -87,6 +91,7 @@ class Producto extends BaseClass
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Categoria", inversedBy="productos")
      * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
+     * @Exclude()
      */
     private $categoria;
 

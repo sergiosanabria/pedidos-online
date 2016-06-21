@@ -4,6 +4,9 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Base\BaseClass;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * PedidoCabecera
@@ -70,6 +73,7 @@ class PedidoCabecera extends BaseClass
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Empresa")
      * @ORM\JoinColumn(name="empresa_id", referencedColumnName="id")
+     * @Exclude()
      */
     private $empresa;
 
@@ -81,6 +85,12 @@ class PedidoCabecera extends BaseClass
      * @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
      */
     private $cliente;
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PedidoItem", mappedBy="pedidoCabecera", cascade={"persist"})
+     */
+    private $pedidosItem;
 
 
     /**
@@ -327,5 +337,46 @@ class PedidoCabecera extends BaseClass
         $this->actualizadoPor = $actualizadoPor;
 
         return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->pedidosItem = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add pedidosItem
+     *
+     * @param \AppBundle\Entity\PedidoItem $pedidosItem
+     *
+     * @return PedidoCabecera
+     */
+    public function addPedidosItem(\AppBundle\Entity\PedidoItem $pedidosItem)
+    {
+        $this->pedidosItem[] = $pedidosItem;
+
+        return $this;
+    }
+
+    /**
+     * Remove pedidosItem
+     *
+     * @param \AppBundle\Entity\PedidoItem $pedidosItem
+     */
+    public function removePedidosItem(\AppBundle\Entity\PedidoItem $pedidosItem)
+    {
+        $this->pedidosItem->removeElement($pedidosItem);
+    }
+
+    /**
+     * Get pedidosItem
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPedidosItem()
+    {
+        return $this->pedidosItem;
     }
 }

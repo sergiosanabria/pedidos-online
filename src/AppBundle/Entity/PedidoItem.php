@@ -74,6 +74,23 @@ class PedidoItem extends BaseClass
      */
     private $pedidoCabecera;
 
+
+    /**
+     * Calcula el total del item haciendo el producto del precio x la cantidad
+     *
+     * @param bool $setTotal Setea el attr total
+     */
+    public function calcularTotal($setTotal = true)
+    {
+        $total = $this->getCantidad() * $this->getPrecio();
+
+        if ($setTotal){
+            $this->setTotal($total);
+        }
+
+        return $total;
+    }
+
     /**
      * Get id
      *
