@@ -27,7 +27,7 @@ class PedidosRestController extends FOSRestController
     public function getPedidoAction(Request $request, $id)
     {
 
-        $pedido = $this->getDoctrine()->getRepository("AppBundle:PedidoCabecera")->find($id);
+        $pedido = $this->getDoctrine()->getRepository("AppBundle:PedidoCabecera")->getPedidos($id);
 
         $vista = $this->view($pedido,
             200)
