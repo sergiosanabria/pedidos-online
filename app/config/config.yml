@@ -12,6 +12,7 @@ parameters:
     site_name: 'Pedidos Online'
     app.path.product_images: /uploads/images/productos
     app.path.profile_images: /uploads/images/perfil
+    app.path.combo_images: /uploads/images/combos
 
 framework:
     #esi:             ~
@@ -177,6 +178,9 @@ vich_uploader:
         profile_images:
             uri_prefix:         %app.path.profile_images%
             upload_destination: %kernel.root_dir%/../web/uploads/images/perfil
+        combo_images:
+            uri_prefix:         %app.path.combo_images%
+            upload_destination: %kernel.root_dir%/../web/uploads/images/combos
 
 #fos rest
 fos_rest:

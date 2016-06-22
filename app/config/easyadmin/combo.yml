@@ -7,10 +7,11 @@ easy_admin:
                     - { property: 'nombre' }
                     - { property: 'descripcion' }
                     - { property: 'productos', type: 'collection', type_options: { entry_type: 'AppBundle\Form\ProductoComboType', by_reference: true, allow_delete: true }}
-                    - { property: 'porcentaje' }
-                    - { property: 'precio' }
+                    - { property: 'porcentaje', type: 'percent', scale: 2 }
+                    - { property: 'precio' , type: 'money', currency: 'ARS', scale: 2}
                     - { property: 'empresa' }
                     - { property: 'categoria' }
+                    - { property: 'imageFile', template:'field_image.html.twig',type: 'vich_image' }
             edit:
                 title:  'Editar %%entity_name%%'
             new:
