@@ -27,7 +27,7 @@ class PedidosRestController extends FOSRestController
     public function getPedidoAction(Request $request, $id)
     {
 
-        $pedido = $this->getDoctrine()->getRepository("AppBundle:PedidoCabecera")->getPedidos($id);
+        $pedido = $this->getDoctrine()->getRepository("AppBundle:PedidoCabecera")->find($id);
 
         $vista = $this->view($pedido,
             200)
@@ -47,7 +47,7 @@ class PedidosRestController extends FOSRestController
         $unPedido = new PedidoCabecera();
 
         $unPedido->setDelivery($pedido->get('delivery'));
-        $unPedido->setObservacion($pedido->get('obs'));
+        $unPedido->setObservacion($pedido->get('observacion'));
         $unPedido->setEstado($pedido->get('estado'));
 
         $totalPedido = 0;
@@ -55,7 +55,7 @@ class PedidosRestController extends FOSRestController
         foreach ($pedido->get('items') as $item) {
             $unItem = new PedidoItem();
             $unItem->setCantidad($item['cantidad']);
-            $unItem->setDetalles($item['obs']);
+            $unItem->setDetalles($item['detalle']);
             $unProducto = $em->getRepository("AppBundle:Producto")->find($item['producto']['id']);
             $unItem->setProducto($unProducto);
             $unItem->setPrecio($unProducto->getPrecioDeVenta());

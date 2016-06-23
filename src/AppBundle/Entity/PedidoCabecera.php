@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * PedidoCabecera
@@ -379,4 +381,25 @@ class PedidoCabecera extends BaseClass
     {
         return $this->pedidosItem;
     }
+
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("items")
+     */
+    public function getItemsActivos()
+    {
+        $retorno = array();
+        foreach ($this->pedidosItem as $item) {
+            if ($item->getActivo()) {
+                $retorno [] = $item;
+            }
+        }
+
+        return $retorno;
+
+
+    }
+
+
 }
