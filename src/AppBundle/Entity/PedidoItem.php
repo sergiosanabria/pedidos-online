@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Base\BaseClass;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * PedidoItem
@@ -12,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PedidoItemRepository")
  */
 class PedidoItem extends BaseClass
-{ 
+{
     /**
      * @var int
      *
@@ -84,17 +86,27 @@ class PedidoItem extends BaseClass
     {
         $total = $this->getCantidad() * $this->getPrecio();
 
-        if ($setTotal){
+        if ($setTotal) {
             $this->setTotal($total);
         }
 
         return $total;
     }
 
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("activo")
+     */
+    public function getActivo()
+    {
+        return parent::getActivo();
+    }
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -117,7 +129,7 @@ class PedidoItem extends BaseClass
     /**
      * Get precio
      *
-     * @return string 
+     * @return string
      */
     public function getPrecio()
     {
@@ -140,7 +152,7 @@ class PedidoItem extends BaseClass
     /**
      * Get cantidad
      *
-     * @return string 
+     * @return string
      */
     public function getCantidad()
     {
@@ -163,7 +175,7 @@ class PedidoItem extends BaseClass
     /**
      * Get total
      *
-     * @return string 
+     * @return string
      */
     public function getTotal()
     {
@@ -186,7 +198,7 @@ class PedidoItem extends BaseClass
     /**
      * Get detalles
      *
-     * @return string 
+     * @return string
      */
     public function getDetalles()
     {
@@ -235,7 +247,7 @@ class PedidoItem extends BaseClass
     /**
      * Get producto
      *
-     * @return \AppBundle\Entity\Producto 
+     * @return \AppBundle\Entity\Producto
      */
     public function getProducto()
     {
@@ -258,7 +270,7 @@ class PedidoItem extends BaseClass
     /**
      * Get combo
      *
-     * @return \AppBundle\Entity\Combo 
+     * @return \AppBundle\Entity\Combo
      */
     public function getCombo()
     {
@@ -281,7 +293,7 @@ class PedidoItem extends BaseClass
     /**
      * Get pedidoCabecera
      *
-     * @return \AppBundle\Entity\PedidoCabecera 
+     * @return \AppBundle\Entity\PedidoCabecera
      */
     public function getPedidoCabecera()
     {

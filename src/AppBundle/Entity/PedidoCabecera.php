@@ -96,6 +96,25 @@ class PedidoCabecera extends BaseClass
 
 
     /**
+     * @VirtualProperty()
+     * @SerializedName("items")
+     */
+    public function getItemsActivos()
+    {
+        $retorno = array();
+        foreach ($this->pedidosItem as $item) {
+            if ($item->getActivo()) {
+                $retorno [] = $item;
+            }
+        }
+
+        return $retorno;
+
+
+    }
+
+
+    /**
      * Get id
      *
      * @return integer 
@@ -382,24 +401,6 @@ class PedidoCabecera extends BaseClass
         return $this->pedidosItem;
     }
 
-
-    /**
-     * @VirtualProperty()
-     * @SerializedName("items")
-     */
-    public function getItemsActivos()
-    {
-        $retorno = array();
-        foreach ($this->pedidosItem as $item) {
-            if ($item->getActivo()) {
-                $retorno [] = $item;
-            }
-        }
-
-        return $retorno;
-
-
-    }
 
 
 }
