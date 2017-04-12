@@ -27,6 +27,7 @@ class Combo extends BaseClass {
 	 * @ORM\Column(name="id", type="integer")
 	 * @ORM\Id
 	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Expose()
 	 */
 	private $id;
 
@@ -48,7 +49,7 @@ class Combo extends BaseClass {
 
 	/**
 	 * @var string
-	 *
+	 * @Expose()
 	 * @ORM\Column(name="porcentaje", type="decimal", precision=10, scale=2, nullable=true)
 	 */
 	private $porcentaje;
@@ -64,7 +65,6 @@ class Combo extends BaseClass {
 	 * @var
 	 *
 	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductoCombo", mappedBy="combo",cascade={"persist", "remove"})
-	 * @Expose()
 	 */
 	private $productos;
 
@@ -97,6 +97,36 @@ class Combo extends BaseClass {
 	 */
 	private $imageFile;
 
+
+	/**
+	 * @VirtualProperty()
+	 * @SerializedName("iscombo")
+	 */
+	public function isCombo (){
+		return true;
+	}
+
+	/**
+	 * @VirtualProperty()
+	 * @SerializedName("isproducto")
+	 */
+	public function isProducto (){
+		return false;
+	}
+
+	/**
+	 * @VirtualProperty()
+	 * @SerializedName("productos")
+	 */
+	public function getProductosToString (){
+		$productos = array();
+		foreach ($this->getProductos() as $producto) {
+			$productos [] = $producto->getProducto()->getNombre();
+		}
+
+		return implode(', ', $productos);
+	}
+
 	// ...
 
 	public function setImageFile( File $image = null ) {
@@ -126,7 +156,7 @@ class Combo extends BaseClass {
 
 	/**
 	 * @VirtualProperty()
-	 * @SerializedName("precio_venta")
+	 * @SerializedName("precio_de_venta")
 	 */
 	public function getPrecioVenta() {
 		$precioVenta = 0;

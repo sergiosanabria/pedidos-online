@@ -9,6 +9,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * Producto
@@ -112,6 +114,23 @@ class Producto extends BaseClass
      * @var File
      */
     private $imageFile;
+
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("iscombo")
+     */
+    public function isCombo (){
+        return false;
+    }
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("isproducto")
+     */
+    public function isProducto (){
+        return true;
+    }
 
     // ...
 

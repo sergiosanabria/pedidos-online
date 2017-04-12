@@ -4,12 +4,18 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Base\BaseClass;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * Empresa
  *
  * @ORM\Table(name="empresas")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EmpresaRepository")
+ * @ExclusionPolicy("all")
  */
 class Empresa extends BaseClass
 {
@@ -19,33 +25,34 @@ class Empresa extends BaseClass
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose()
      */
     private $id;
 
     /**
      * @var string
-     *
+     * @Expose()
      * @ORM\Column(name="nombre", type="string", length=255)
      */
     private $nombre;
 
     /**
      * @var string
-     *
+     * @Expose()
      * @ORM\Column(name="slogan", type="string", length=255, nullable=true)
      */
     private $slogan;
 
     /**
      * @var string
-     *
+     * @Expose()
      * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
      */
     private $descripcion;
 
     /**
      * @var string
-     *
+     * @Expose()
      * @ORM\Column(name="color", type="string", length=255, nullable=true)
      */
     private $color;

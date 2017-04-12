@@ -71,7 +71,7 @@ class PedidoItem extends BaseClass
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PedidoCabecera")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PedidoCabecera", inversedBy="pedidosItem")
      * @ORM\JoinColumn(name="pedido_cabecera_id", referencedColumnName="id")
      */
     private $pedidoCabecera;

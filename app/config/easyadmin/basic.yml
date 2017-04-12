@@ -18,6 +18,7 @@ easy_admin:
             - 'Empresa'
             - 'Producto'
             - 'Cliente'
+            - 'Repartidor'
             - { entity: 'Categoria', label: 'Categoria' }
             - 'Combo'
             - { entity: 'UnidadMedida', label: 'Unidades de Medida' }
@@ -36,6 +37,7 @@ easy_admin:
                   - 'Departamento'
                   - 'Localidad'
             - 'Usuario'
+
             - { label: 'Cerrar Sesión', route: 'fos_user_security_logout', icon: 'sign-out' }
 
     assets:

@@ -16,7 +16,24 @@ class PedidosRestController extends FOSRestController
 
         $pedidos = $this->getDoctrine()->getRepository("AppBundle:PedidoCabecera")->getPedidos();
 
-        $vista = $this->view($pedidos,
+        $arrayReturn = array();
+
+        /**
+         * @var $pedido PedidoCabecera
+         */
+        foreach ($pedidos as $pedido) {
+            $arrayReturn [] = array(
+                'estado' => $pedido->getEstado(),
+                'id' => $pedido->getId(),
+                'observacion' => $pedido->getObservacion(),
+                'fechaCreacion' => date_format($pedido->getFechaCreacion(), 'Y-m-d H:i:s'),
+                'total' => $pedido->getTotal(),
+                'delivery' => $pedido->getDelivery(),
+                'repartidor' => $pedido->getRepartidor()?$pedido->getRepartidor()->__toString():'',
+            );
+        }
+
+        $vista = $this->view($arrayReturn,
             200)
 //			->setTemplate( "MyBundle:Users:getUsers.html.twig" )
 //			->setTemplateVar( 'noticias' )
@@ -57,9 +74,19 @@ class PedidosRestController extends FOSRestController
             $unItem = new PedidoItem();
             $unItem->setCantidad($item['cantidad']);
             $unItem->setDetalles($item['detalle']);
-            $unProducto = $em->getRepository("AppBundle:Producto")->find($item['producto']['id']);
-            $unItem->setProducto($unProducto);
-            $unItem->setPrecio($unProducto->getPrecioDeVenta());
+
+            if ($item['producto']['isproducto']) {
+                $unProducto = $em->getRepository("AppBundle:Producto")->find($item['producto']['id']);
+                $unItem->setProducto($unProducto);
+                $unItem->setPrecio($unProducto->getPrecioDeVenta());
+
+            } else {
+                $unProducto = $em->getRepository("AppBundle:Combo")->find($item['producto']['id']);
+                $unItem->setCombo($unProducto);
+                $unItem->setPrecio($unProducto->getPrecioVenta());
+            }
+
+
             $totalItem = $unItem->calcularTotal();
 
             $unItem->setPedidoCabecera($unPedido);
@@ -105,6 +132,10 @@ class PedidosRestController extends FOSRestController
         $unPedido->setObservacion($pedido->get('observacion'));
         $unPedido->setEstado($pedido->get('estado'));
 
+        if ($pedido->get('estado') == 'cancelado' && $pedido->get('motivo_cancelacion_cliente')) {
+            $unPedido->setMotivoCancelacionCliente($pedido->get('motivo_cancelacion_cliente'));
+        }
+
         $totalPedido = 0;
 
         foreach ($pedido->get('items') as $item) {
@@ -118,9 +149,18 @@ class PedidosRestController extends FOSRestController
 
             $unItem->setCantidad($item['cantidad']);
             $unItem->setDetalles($item['detalle']);
-            $unProducto = $em->getRepository("AppBundle:Producto")->find($item['producto']['id']);
-            $unItem->setProducto($unProducto);
-            $unItem->setPrecio($unProducto->getPrecioDeVenta());
+
+            if ($item['producto']['isproducto']) {
+                $unProducto = $em->getRepository("AppBundle:Producto")->find($item['producto']['id']);
+                $unItem->setProducto($unProducto);
+                $unItem->setPrecio($unProducto->getPrecioDeVenta());
+
+            } else {
+                $unProducto = $em->getRepository("AppBundle:Combo")->find($item['producto']['id']);
+                $unItem->setCombo($unProducto);
+                $unItem->setPrecio($unProducto->getPrecioVenta());
+            }
+
             $totalItem = $unItem->calcularTotal();
 
             if ($item['id'] == -1) {
@@ -128,7 +168,6 @@ class PedidosRestController extends FOSRestController
 
                 $unPedido->addPedidosItem($unItem);
             }
-
 
             $totalPedido += $totalItem;
 
@@ -155,4 +194,6 @@ class PedidosRestController extends FOSRestController
 
         return $this->handleView($vista);
     }
+
+
 }

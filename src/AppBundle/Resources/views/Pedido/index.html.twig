@@ -1,10 +1,52 @@
 {% extends 'EasyAdminBundle:default:layout.html.twig' %}
+{% block head_stylesheets %}
+    {{ parent() }}
+    <style>
+        .bg-pedido {
+            background-color: #3C8DBC;
+        }
+
+        .bg-cancelado {
+            background-color: #DD4B39;
+        }
+
+        .bg-listo {
+            background-color: #00A65A;
+        }
+
+        .bg-recibido {
+            background-color: #F39C12;
+        }
+
+        .btn-warning {
+            background-color: #F39C12;
+            border-color: #eea236;
+            color: #fff;
+        }
+    </style>
+{% endblock %}
 {% block body_javascript %}
+    {{ parent() }}
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.1/angular.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script>
         socketHost = 'localhost:5000';
+
+        function playSound() {
+            $("#audioError").remove();
+            var audio = $("<embed src='{{ asset("bundles/app/alerta.mp3") }}' hidden='true' autostart='true' loop='false' class='playSound'>" + "<audio id='audioError' autoplay='autoplay' style='display:none;' controls='controls'><source src='{{ asset("bundles/app/alerta.mp3") }}' /></audio>").appendTo('body');
+            var audioError = document.getElementById("audioError");
+            audioError.volume = 0.7;
+            return audio;
+        }
         (function () {
+
+
+
+            // Select2 widget is only enabled for the <select> elements which explicitly ask for it
+            $('body').find('select[data-widget="select2"]').select2({
+                theme: 'bootstrap'
+            });
 
 
             app = angular.module('app', []);
@@ -20,7 +62,9 @@
             app.controller("pedidos", function ($scope, socket, $http) {
                 $scope.nombre = "holis";
                 $scope.pedidos = [];
-                var url_pedidos = "http://localhost/pedidosonline/web/app_dev.php/api/pedidos";
+                $scope.repartidores = [];
+
+                var url_pedidos = '{{ path ('api_get_pedidos') }}';
 
                 $http.get(url_pedidos)
                         .success(function (json) {
@@ -32,13 +76,226 @@
                 socket.on('pedidos', function (data) {
                     //console.log(JSON.parse(data.data));
                     $scope.pedidos = data.pedidos;
-                    console.log($scope.pedidos);
+                    playSound();
                 });
+
+
+                $scope.pedido = {};
+                $scope.newItem = {};
+                $scope.edit = false;
+                $scope.saved = true;
+
+                $scope.pedido.delivery = true;
+                $scope.pedido.observacion = "";
+                $scope.pedido.items = [];
+                $scope.pedido.total = "";
+                $scope.pedido.estado = "";
+                $scope.pedido.id = -1;
+
+                $scope.buscar = {};
+                $scope.buscar.estado = ['guardado', 'asd'];
+
+
+                $scope.estados = ['guardado', 'pedido', 'recibido', 'listo', 'cancelado'];
+
+                $scope.filterEstados = function (p) {
+                    if ($scope.buscar.estado.length == 0) {
+                        return true;
+                    }
+
+                    return ($scope.buscar.estado.indexOf(p.estado) !== -1);
+                };
+
+
+                $scope.openModal = function (id) {
+
+                    var url_repartidores = '{{ path ('api_get_repartidor') }}';
+
+                    $http({
+                        "method": 'GET',
+                        "url": url_repartidores
+                    }).success(function (data){
+                        $scope.repartidores = data;
+                    });
+
+                    $http({
+                        "method": 'GET',
+                        "url": url_pedidos + "/" + id
+                    }).success(function (data) {
+
+                        $scope.pedido.delivery = data.delivery;
+                        $scope.pedido.observacion = data.observacion;
+                        $scope.pedido.estado = data.estado;
+                        $scope.pedido.id = data.id;
+                        $scope.pedido.items = [];
+
+                        angular.forEach(data.items, function (v, k) {
+                            var item = {};
+                            if (v.producto != null) {
+                                item.cantidad = v.cantidad;
+                                item.id = v.id;
+                                item.producto = v.producto;
+                                item.detalle = v.detalles;
+                            } else {
+                                item.cantidad = v.cantidad;
+                                item.id = v.id;
+                                item.producto = v.combo;
+                                item.detalle = v.detalles;
+                            }
+
+
+                            $scope.pedido.items.push(item);
+
+                        });
+
+                        $("#modal-edit-pedido").modal('toggle');
+
+
+                    });
+                };
+
+
+                $scope.setPedido = function (id) {
+
+                    $http({
+                        "method": 'GET',
+                        "url": url_pedidos + "/" + id
+                    }).success(function (data) {
+
+                        $scope.pedido.delivery = data.delivery;
+                        $scope.pedido.observacion = data.observacion;
+                        $scope.pedido.estado = data.estado;
+                        $scope.pedido.id = data.id;
+                        $scope.pedido.items = [];
+
+                        angular.forEach(data.items, function (v, k) {
+                            var item = {};
+                            item.cantidad = v.cantidad;
+                            item.id = v.id;
+                            item.producto = v.producto;
+                            item.detalle = v.detalles;
+
+                            $scope.pedido.items.push(item);
+
+                        });
+
+
+                    });
+                };
+
+
+                $scope.isEditable = function () {
+                    if ($scope.pedido.estado == 'guardado' || $scope.pedido.estado == 'pedido') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
+
+                $scope.modalButtonAdd = function () {
+                    $scope.newItem = {};
+                    $scope.modal.show();
+                    $scope.edit = false;
+                };
+
+                $scope.modalEdit = function (item) {
+                    if (!$scope.isEditable()) {
+                        return;
+                    }
+                    $scope.newItem = item;
+                    $scope.modal.show();
+                    $scope.edit = true;
+                    $scope.saved = false;
+                };
+
+                $scope.addItem = function () {
+                    $scope.newItem.id = -1;
+                    var obj = $.extend({}, $scope.newItem);
+
+                    $scope.pedido.items.push(obj);
+                    $scope.newItem = {};
+                    $scope.modal.hide();
+                    $scope.saved = false;
+                };
+
+                $scope.removeItem = function () {
+                    $scope.pedido.items.pop($scope.newItem);
+                    $scope.newItem = {};
+                    $scope.saved = false;
+                };
+
+                $scope.savePedido = function (estado, pedidoId) {
+                    var id = -1;
+
+                    if (isUndefined(id)) {
+                        id = $scope.pedido.id;
+                    } else {
+
+                        id = pedidoId;
+                        $scope.setPedido();
+                    }
+
+                    if (!isUndefined(estado)) {
+                        $scope.pedido.estado = estado;
+                    }
+                    $http({
+                        "method": 'PUT',
+                        "type": "json",
+                        "data": angular.toJson($scope.pedido),
+                        "url": url_pedidos + "/" + $scope.pedido.id
+                    }).success(function (data) {
+                        if ($scope.pedido.motivo_cancelacion_cliente) {
+                            $scope.modalCancelacion.hide();
+                        }
+                        $scope.saved = true;
+                        $("#modal-edit-pedido").modal('toggle');
+
+                    });
+                };
+
+                $scope.cancelarPedido = function () {
+                    if ($scope.pedido.estado == 'pedido') {
+                        $scope.modalCancelacion.show();
+                    } else {
+                        $scope.savePedido('cancelado');
+                    }
+
+                };
+
+                $scope.selectItem = function (p) {
+                    $scope.newItem.producto = p;
+                    $scope.newItem.cantidad = 1;
+                    $scope.newItem.detalle = "";
+                    $scope.newItem.total = p.precio * 1;
+
+                };
+
+                $scope.getTotalBruto = function () {
+                    var total = 0.00;
+                    angular.forEach($scope.pedido.items, function (v, k) {
+                        total += v.cantidad * v.producto.precio_de_venta;
+                    });
+
+                    return total;
+                };
+
+
             });
 
 
         }());
+
+        function isUndefined(obj) {
+            if (typeof obj == "undefined") {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
     </script>
+
     <script src="{{ asset("bundles/app/js/socket.js") }}"></script>
 
 
@@ -54,61 +311,160 @@
         <section class="content-header">
             <div class="row">
                 <div class="col-sm-5">
-                    <h1 class="title">Pedidos {[{ pedidos.length }]}</h1>
+                    <h1 class="title">Pedidos del dia</h1>
                 </div>
 
-            </div>
+                <div class="col-sm-7">
+
+                    <select class="col-sm-1 form-control" multiple="multiple" data-widget="select2"
+                            ng-multiple="true" ng-model="buscar.estado"
+                            ng-options="c for c in estados"></select> <input class="col-sm-1 form-control" type="text"
+                                                                             aria-describedby="basic-addon2"
+                                                                             ng-model="buscar.all.$"
+                                                                             placeholder="Buscar algún pedido"
+                                                                             class="col-sm-3">
+
+                </div>
         </section>
 
         <section class="content" id="main">
 
             <div class="table-responsive">
-                <table class="table">
+                <table class="table  table-bordered">
                     <thead>
                     <tr>
-                        <th>
-                            Nro de Pedido
-                        </th>
-                        <th>
-                            Tipo de envio
-                        </th>
-                        <th>
-                            Observaciones
-                        </th>
-                        <th>
-                            Total
-                        </th>
+                        <th>Nro de Pedido</th>
+                        <th>Tipo de envio</th>
+                        <th>Observaciones</th>
+                        <th>Fecha y hora</th>
+                        <th>Repartidor</th>
+                        <th>Total</th>
+                        <th>Acciones</th>
 
                     </tr>
                     </thead>
 
                     <tbody>
-                    <tr ng-repeat="p in pedidos">
-                        <td>{[{ p.id }]}</td>
+                    <tr ng-repeat="p in pedidos | filter:filterEstados:buscar.all"
+                        class="bg-{[{ p.estado }]}">
+                        <td>#{[{ p.id }]}</td>
                         <td>
-                            <span ng-class="p.delivery?'badge alert-warning': 'badge alert-success'" ng-bind="p.delivery?'Delivery':'Pasa a buscar'"></span></td>
+                            <span ng-class="p.delivery?'label label-warning': 'label label-success'"
+                                  ng-bind="p.delivery?'Delivery':'Pasa a buscar'"></span></td>
                         <td>{[{ p.observacion }]}</td>
-                        <td>{[{ p.total }]}</td>
+                        <td>{[{ p.fechaCreacion | date:'dd-MM-yyyy H:mm'}]}</td>
+                        <td>{[{ p.repartidor }]}</td>
+                        <td><b style="font-size: 20px;">{[{ p.total | currency}]}</b></td>
+                        <td style="background-color: #F5F5F5;">
+                            <button type="button" class="btn btn-primary" ng-click="openModal(p.id)">
+                                <i class="fa fa-edit"></i> Editar
+                            </button>
+                            {#<button ng-if="p.estado=='pedido'" ng-click="savePedido('recibido',p.id)"#}
+                            {#class="btn btn-alert"#}
+                            {#data-dismiss="modal" type="button">#}
+                            {#En proceso <i class="fa fa-cogs"></i>#}
+                            {#</button>#}
+                            {#<button ng-if="p.estado=='recibido'" ng-click="savePedido('listo', p.id)"#}
+                            {#class="btn btn-success"#}
+                            {#data-dismiss="modal" type="button">#}
+                            {#Listo <i class="fa fa-check"></i>#}
+                            {#</button>#}
+                        </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
 
 
-            <div class="modal fade" id="modal-delete">
+            <div class="modal fade" id="modal-edit-pedido">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <h4>¿Realmente quieres borrar este elemento?</h4>
-                            <p>Esta acción no se puede deshacer.</p>
+                            <h3>Editar pedido {[{ pedido.id }]}</h3>
+                        </div>
+
+                        <div class="modal-body">
+                            <form data-example-id="simple-input-groups" class="bs-example bs-example-form">
+                                <table class="table table-condensed table-hover">
+                                    <thead>
+                                    <th>Producto</th>
+                                    <th>Detalle</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio unitario</th>
+                                    <th>Total</th>
+                                    <th class="text-center">Acciones</th>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in pedido.items">
+                                        <td>{[{ item.producto.nombre }]}</td>
+                                        <td>{[{ item.detalle }]}</td>
+                                        <td>{[{ item.cantidad }]}</td>
+                                        <td>{[{ item.producto.precio_de_venta | currency}]}</td>
+                                        <td>{[{ item.producto.precio_de_venta * item.cantidad | currency}]}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-danger btn-xs" type="button"
+                                                    ng-click="removeItem(item)"><i class="fa fa-remove"></i></button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <div>
+                                    <b>Observaciones:</b> {[{ pedido.observacion }]}
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Repartidor</label>
+                                    <select ng-model="pedido.repartidor" class="form-control"
+                                            ng-options="repartidor.id as repartidor.nombre for repartidor in repartidores"
+                                            >
+                                        <option value="-1">-- Selecciona un repartidor--</option>
+                                    </select>
+
+                                </div>
+
+                                {#<div class="input-group">#}
+                                {#<span class="input-group-addon">@</span>#}
+                                {#<input type="text" placeholder=""#}
+                                {#class="form-control"></div>#}
+                                <div class="text-right">
+                                    <div>
+                                        <h3 style="color:#B71C1C;" class=" ">Items {[{pedido.items.length}]}</h3>
+                                    </div>
+                                    <div>
+                                        <h3 style="color:#B71C1C;" class=" ">Total {[{getTotalBruto() | currency}]}</h3>
+                                    </div>
+                                </div>
+
+                            </form>
                         </div>
                         <div class="modal-footer">
                             <button class="btn" data-dismiss="modal" type="button">
                                 Cancelar
                             </button>
 
-                            <button id="modal-delete-button" class="btn btn-danger" data-dismiss="modal" type="button">
-                                Borrar
+                            <button ng-if="pedido.estado=='pedido'" ng-click="savePedido('recibido')"
+                                    class="btn btn-warning"
+                                    data-dismiss="modal"
+                                    type="button">
+                                En proceso <i class="fa fa-cogs"></i>
+                            </button>
+                            <button ng-if="pedido.estado=='recibido'" ng-click="savePedido('listo')"
+                                    class="btn btn-success"
+                                    data-dismiss="modal" type="button">
+                                Listo <i class="fa fa-check"></i>
+                            </button>
+
+                            {#<button class="btn btn-primary"#}
+                            {#ng-if="pedido.estado!='listo'&& pedido.estado!='cancelado'"#}
+                            {#ng-click="savePedido()"#}
+                            {#type="button">#}
+                            <button class="btn btn-primary"
+                                    ng-if="pedido.estado=='pedido' || pedido.estado=='recibido'"
+                                    ng-click="savePedido()"
+                                    type="button">
+
+                                Guardar <i class="fa fa-save"></i>
                             </button>
                         </div>
                     </div>

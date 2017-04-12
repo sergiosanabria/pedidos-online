@@ -11,3 +11,4 @@ easy_admin:
                     - { property: 'motivoCancelacionCliente' }
                     - { property: 'motivoCancelacionEmpresa' }
                     - { property: 'total' }
+                    - { property: 'repartidor' }

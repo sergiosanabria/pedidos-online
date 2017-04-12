@@ -15,6 +15,7 @@ use JMS\Serializer\Annotation\SerializedName;
  *
  * @ORM\Table(name="pedido_cabecera")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PedidoCabeceraRepository")
+ * @ExclusionPolicy("all")
  */
 class PedidoCabecera extends BaseClass
 {
@@ -24,26 +25,27 @@ class PedidoCabecera extends BaseClass
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose()
      */
     private $id;
 
     /**
      * @var string
-     *
+     * @Expose()
      * @ORM\Column(name="observacion", type="text")
      */
     private $observacion;
 
     /**
      * @var bool
-     *
+     * @Expose()
      * @ORM\Column(name="delivery", type="boolean", nullable=true)
      */
     private $delivery;
 
     /**
      * @var string
-     *
+     * @Expose()
      * @ORM\Column(name="estado", type="string", length=255)
      */
     private $estado;
@@ -89,6 +91,14 @@ class PedidoCabecera extends BaseClass
     private $cliente;
 
     /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Repartidor", inversedBy="pedidos")
+     * @ORM\JoinColumn(name="repartidor", referencedColumnName="id", nullable=true)
+     * @Expose()
+     */
+    private $repartidor;
+
+    /**
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\PedidoItem", mappedBy="pedidoCabecera", cascade={"persist"})
      */
@@ -112,6 +122,17 @@ class PedidoCabecera extends BaseClass
 
 
     }
+
+    /**
+     * @VirtualProperty()
+     * @SerializedName("creado")
+     */
+    public function getFechaCreacion()
+    {
+        return parent::getFechaCreacion();
+    }
+
+
 
 
     /**
@@ -403,4 +424,28 @@ class PedidoCabecera extends BaseClass
 
 
 
+
+    /**
+     * Set repartidor
+     *
+     * @param \AppBundle\Entity\Repartidor $repartidor
+     *
+     * @return PedidoCabecera
+     */
+    public function setRepartidor(\AppBundle\Entity\Repartidor $repartidor = null)
+    {
+        $this->repartidor = $repartidor;
+
+        return $this;
+    }
+
+    /**
+     * Get repartidor
+     *
+     * @return \AppBundle\Entity\Repartidor
+     */
+    public function getRepartidor()
+    {
+        return $this->repartidor;
+    }
 }

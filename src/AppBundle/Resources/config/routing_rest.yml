@@ -12,3 +12,13 @@ pedidos :
   type: rest
   resource:     "AppBundle:PedidosRest"
   name_prefix:  api_
+
+repartidor :
+  type: rest
+  resource:     "AppBundle:RepartidorRest"
+  name_prefix:  api_
+
+empresa :
+  type: rest
+  resource:     "AppBundle:EmpresaRest"
+  name_prefix:  api_

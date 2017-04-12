@@ -1,0 +1,10 @@
+easy_admin:
+    entities:
+        Repartidor:
+            class: AppBundle\Entity\Repartidor
+            form:
+                fields:
+                    - { property: 'nombre' }
+                    - { property: 'apellido' }
+                    - { property: 'dni' }
+                    - { property: 'fechaNaciemiento' }

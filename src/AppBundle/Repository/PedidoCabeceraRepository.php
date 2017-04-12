@@ -18,15 +18,16 @@ class PedidoCabeceraRepository extends EntityRepository {
 		           ->andWhere( 'p.activo = true' )
 		           ->andWhere( '(TIMESTAMPDIFF(HOUR, p.fechaCreacion,  :hoy)) <= :hora' )
 		           ->setParameter( 'hoy', new \DateTime() )
-		           ->setParameter( 'hora', 10000 );
+		           ->setParameter( 'hora', 10000 )
+					->orderBy("p.id", "DESC")
+		;
 
 		if ( $id ) {
 			$qb->andWhere( 'p.id = :idPedido' )
 			   ->setParameter( 'idPedido', $id );
 		}
 
-		$sql = $qb->getQuery()->getSQL();
 
-		return $qb->getQuery()->getArrayResult();
+		return $qb->getQuery()->getResult();
 	}
 }
